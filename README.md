@@ -1,5 +1,8 @@
 # unzipjs
-Unzip/decompress a zipped file in Browser or Node.js.
+Simple javascript library to Unzip/decompress a zipped file in Browser or Node.js.
+
+I use this on Cloudflare workers because CF not natively support node.js, even you can install node zip library on CF it produce large bundled file, around 300 kB.
+
 The method return array of object
 
 ```
@@ -11,10 +14,6 @@ The method return array of object
   }
 ]
 ```
-
-**Why not use available library?**
-
-I use this on Cloudflare workers because CF workers not natively support node.js and not support full Browser API which is required by other library.
 
 ## Installation
 Download the files in [**dist**](https://github.com/ewwink/unzipjs/tree/main/dist) directory
