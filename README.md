@@ -18,19 +18,42 @@ The method return array of object
 ## Installation
 Download the files in [**dist**](https://github.com/ewwink/unzipjs/tree/main/dist) directory
 
-**Browser**
+### Browser
 
     <script src="unzipjs.min.js"></script>
 
-**Nodejs**
+### Cloudflare Workers
 
-    const unzipjs = require("/.unzipjs")
+```javascript
+export default {
+	async fetch(request, env, ctx) {
+		const arraybuffer = await fetch('https://example/file.zip')
+            .then((res) => res.arrayBuffer());
+		let unzip = new unzipjs();
+		let unzipped = unzip.parse(arraybuffer);
+        let textContent = '';
+		for (let item of unzipped) {
+			console.log(item.name);
+			textContent = item.toString(); // if file not valid UTF8 return empty
+			console.log(item.buffer.length);
+		}
+		return new Response(textContent);
+	},
+} satisfies ExportedHandler<Env>;
+
+// prettier-ignore
+'use strict';class unzipjs{constructor(){....
+```
+
+### Nodejs
+
+    const unzipjs = require("./unzipjs.js")
     # or
-    import unzipjs from "/.unzipjs"
+    import unzipjs from "./unzipjs.js"
     
 **Unzip File**
 
-    const fs = equire("fs")
+    const fs = require("fs")
 	const arraybuffer = fs.readFileSync('localfile.zip')
     
 **Unzip HTTP Response buffer**
@@ -38,8 +61,6 @@ Download the files in [**dist**](https://github.com/ewwink/unzipjs/tree/main/dis
     const arraybuffer = await fetch('https://example/file.zip').then(
       res => res.arrayBuffer()
     );
-
-**Then**
 
     let unzipped = unzipjs.parse(arraybuffer);
     for (let item of unzipped) {

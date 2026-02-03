@@ -313,6 +313,3 @@ class unzipjs {
         pushV(U.itree, 19, 0); pushV(U.ltree, 286, 0); pushV(U.dtree, 30, 0); pushV(U.ttree, 320, 0);
     }
 }
-
-if (typeof module == "object")
-    module.exports = new unzipjs();
