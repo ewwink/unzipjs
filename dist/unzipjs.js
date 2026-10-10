@@ -89,9 +89,15 @@ class unzipjs {
         o += elen;
         if (onlyNames) { out[name] = { size: usize, csize: csize }; return; }
         var file = new Uint8Array(data.buffer, o);
-        if (cmpr == 0) out[name] = new Uint8Array(file.buffer.slice(o, o + csize));
-        else if (cmpr == 8) {
-            var buf = new Uint8Array(usize); this.inflateRaw(file, buf);
+        if (cmpr == 0 || cmpr == 8) {
+            var buf;
+
+            if (cmpr == 0) buf = new Uint8Array(file.buffer.slice(o, o + csize))
+            else if (cmpr == 8) {
+                buf = new Uint8Array(usize);
+                this.inflateRaw(file, buf);
+            }
+
             out.push({
                 name: name,
                 buffer: buf,
